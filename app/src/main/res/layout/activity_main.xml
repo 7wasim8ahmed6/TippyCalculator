@@ -63,6 +63,7 @@
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:max="30"
+        android:progressTint="#10E4C1"
         app:layout_constraintBottom_toBottomOf="@+id/tvPercent"
         app:layout_constraintStart_toStartOf="@+id/etAmount"
         app:layout_constraintTop_toTopOf="@+id/tvPercent" />
