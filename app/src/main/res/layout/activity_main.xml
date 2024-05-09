@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginTop="48dp"
-        android:text="Base"
+        android:text="@string/base"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -32,7 +32,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="64dp"
-        android:text="Tip"
+        android:text="@string/tip"
         app:layout_constraintEnd_toEndOf="@+id/tvPercent"
         app:layout_constraintTop_toBottomOf="@+id/tvPercent" />
 
@@ -41,7 +41,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
-        android:text="Total"
+        android:text="@string/total"
         app:layout_constraintEnd_toEndOf="@+id/tvTip"
         app:layout_constraintTop_toBottomOf="@+id/tvTip" />
 
@@ -50,12 +50,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
+        android:autofillHints=""
         android:backgroundTint="#34B093"
         android:ems="8"
-        android:hint="Bill Amount"
+        android:hint="@string/bill_amount"
         android:inputType="number|numberDecimal"
         android:textAlignment="viewStart"
         android:textColor="#2FA991"
+        android:textColorHint="#546E7A"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/tvBaseView"
@@ -99,7 +101,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="32dp"
-        android:text="Made with ❤️ by Wasim Ahmed"
+        android:text="@string/made_with_by_wasim_ahmed"
         android:textAllCaps="true"
         android:textColor="#666060"
         android:textSize="16sp"
@@ -118,4 +120,13 @@
         app:layout_constraintStart_toStartOf="@+id/sbTipAdjustBar"
         app:layout_constraintTop_toBottomOf="@+id/sbTipAdjustBar"
         tools:text="Good" />
+
+    <CheckBox
+        android:id="@+id/cbxSplitBill"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="@string/splitbill"
+        app:layout_constraintStart_toStartOf="@+id/tvTotal"
+        app:layout_constraintTop_toBottomOf="@+id/tvTotal" />
 </androidx.constraintlayout.widget.ConstraintLayout>

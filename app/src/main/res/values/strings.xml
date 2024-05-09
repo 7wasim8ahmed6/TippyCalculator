@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">MyTipCalculator</string>
+    <string name="splitbill">SplitBill</string>
+    <string name="made_with_by_wasim_ahmed">Made with ❤️ by Wasim Ahmed</string>
+    <string name="total">Total</string>
+    <string name="tip">Tip</string>
+    <string name="base">Base</string>
+    <string name="bill_amount">Bill Amount</string>
 </resources>
