@@ -81,6 +81,11 @@ class MainActivity : AppCompatActivity() {
             else -> "Amazing"
         }
         mHappynessIndView.text = lHappyTxt
+        /*
+        Todo
+        *   Add best and worst colors to themes file and interpolate between them
+        * to give a color to text
+        */
     }
 
     private fun computeTipTotalAndSetViews() {
@@ -95,8 +100,8 @@ class MainActivity : AppCompatActivity() {
         val amountText: String = mEtAmount.text.toString()
         val amount = if (amountText.isNotEmpty()) amountText.toDouble() else 0.0
         val value = amount * progress / 100
-        mTipView.text = String.format("%.2f", value) + "$"
+        mTipView.text = String.format("%.2f", value) + "€"
         val Total = value + amount
-        mTotalView.text = String.format("%.2f", Total) + "$"
+        mTotalView.text = String.format("%.2f", Total) + "€"
     }
 }

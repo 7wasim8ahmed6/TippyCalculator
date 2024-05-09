@@ -2,4 +2,12 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="Grain_dark_green_abstract_background_design_texture_1">#FF042326</color>
+    <color name="Grain_dark_green_abstract_background_design_texture_2">#FF093A40</color>
+    <color name="Grain_dark_green_abstract_background_design_texture_3">#FF0F5959</color>
+    <color name="Grain_dark_green_abstract_background_design_texture_4">#FF1D7373</color>
+    <color name="Grain_dark_green_abstract_background_design_texture_5">#FF107361</color>
+    <color name="lightBlue">#ADD8E6</color>
+    <color name="yellow">#FFFF00</color>
+
 </resources>

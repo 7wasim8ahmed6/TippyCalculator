@@ -3,6 +3,10 @@
     <style name="Base.Theme.MyTipCalculator" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="colorPrimary">@color/Grain_dark_green_abstract_background_design_texture_1</item>
+        <item name="colorPrimaryDark">@color/yellow</item>
+        <item name="colorAccent">@color/Grain_dark_green_abstract_background_design_texture_3</item>
+        <item name="android:windowBackground">@color/lightBlue</item>
     </style>
 
     <style name="Theme.MyTipCalculator" parent="Base.Theme.MyTipCalculator" />
