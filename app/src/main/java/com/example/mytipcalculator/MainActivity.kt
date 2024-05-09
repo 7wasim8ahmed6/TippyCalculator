@@ -3,7 +3,6 @@ package com.example.mytipcalculator
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.widget.EditText
 import android.widget.SeekBar
 import android.widget.SeekBar.OnSeekBarChangeListener
@@ -13,8 +12,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 
-private const val TAG = "MainActivity"
+//private const val TAG = "MainActivity"
 private const val STARTAMT = 100
+private const val STARTPERCENT = 15
 class MainActivity : AppCompatActivity() {
     private lateinit var mEtAmount: EditText
     private lateinit var mSeekBar: SeekBar
@@ -38,8 +38,8 @@ class MainActivity : AppCompatActivity() {
         mSeekBar = findViewById(R.id.sbTipAdjustBar)
 
         mEtAmount.setText("$STARTAMT")
-        mPercentView.text = "15%"
-        mSeekBar.progress = mSeekBar.max/2
+        mPercentView.text = "STARTPERCENT%"
+        mSeekBar.progress = STARTPERCENT
         computeTipTotalAndSetViews()
 
         mEtAmount.addTextChangedListener(/* watcher = */ object : TextWatcher{
@@ -67,7 +67,13 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
-    public fun computeTipTotalAndSetViews() {
+    private fun computeTipTotalAndSetViews() {
+        if(mEtAmount.text.isEmpty())
+        {
+            mTipView.text = ""
+            mTotalView.text = ""
+            return
+        }
         val progress = mSeekBar.progress
         mPercentView.text = "$progress%"
         val amountText: String = mEtAmount.text.toString()
