@@ -21,6 +21,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var mPercentView: TextView
     private lateinit var mTipView: TextView
     private lateinit var mTotalView: TextView
+    private lateinit var mHappynessIndView: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,12 +36,14 @@ class MainActivity : AppCompatActivity() {
         mPercentView = findViewById(R.id.tvPercent)
         mTipView = findViewById(R.id.tvTipValue)
         mTotalView = findViewById(R.id.tvTotalAmt)
+        mHappynessIndView = findViewById(R.id.tvHappyIndicator)
         mSeekBar = findViewById(R.id.sbTipAdjustBar)
 
         mEtAmount.setText("$STARTAMT")
         mPercentView.text = "STARTPERCENT%"
         mSeekBar.progress = STARTPERCENT
         computeTipTotalAndSetViews()
+        setTheHappinessInd(STARTPERCENT)
 
         mEtAmount.addTextChangedListener(/* watcher = */ object : TextWatcher{
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
@@ -59,12 +62,25 @@ class MainActivity : AppCompatActivity() {
             {
 //                Log.i(/* tag = */ TAG, /* msg = */ "onProgressChanged $progress")
                 computeTipTotalAndSetViews()
+                setTheHappinessInd(progress)
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar?) {}
 
             override fun onStopTrackingTouch(seekBar: SeekBar?) {}
         })
+    }
+
+    private fun setTheHappinessInd(progress: Int) {
+        val lHappyTxt = when(progress)
+        {
+            in 0..9 ->"Poor"
+            in 10..14 ->"Acceptable"
+            in 15..19 ->"Good"
+            in 20..24 ->"Great"
+            else -> "Amazing"
+        }
+        mHappynessIndView.text = lHappyTxt
     }
 
     private fun computeTipTotalAndSetViews() {

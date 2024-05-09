@@ -31,7 +31,7 @@
         android:id="@+id/tvTip"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="64dp"
         android:text="Tip"
         app:layout_constraintEnd_toEndOf="@+id/tvPercent"
         app:layout_constraintTop_toBottomOf="@+id/tvPercent" />
@@ -107,4 +107,15 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/tvHappyIndicator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/sbTipAdjustBar"
+        app:layout_constraintStart_toStartOf="@+id/sbTipAdjustBar"
+        app:layout_constraintTop_toBottomOf="@+id/sbTipAdjustBar"
+        tools:text="Good" />
 </androidx.constraintlayout.widget.ConstraintLayout>
