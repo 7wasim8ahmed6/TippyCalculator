@@ -9,12 +9,15 @@ import android.widget.SeekBar.OnSeekBarChangeListener
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
+import androidx.core.graphics.ColorUtils
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 
-//private const val TAG = "MainActivity"
+private const val TAG = "MainActivity"
 private const val STARTAMT = 100
 private const val STARTPERCENT = 15
+
 class MainActivity : AppCompatActivity() {
     private lateinit var mEtAmount: EditText
     private lateinit var mSeekBar: SeekBar
@@ -44,8 +47,9 @@ class MainActivity : AppCompatActivity() {
         mSeekBar.progress = STARTPERCENT
         computeTipTotalAndSetViews()
         setTheHappinessInd(STARTPERCENT)
+        updateAppriciationColor(STARTPERCENT)
 
-        mEtAmount.addTextChangedListener(/* watcher = */ object : TextWatcher{
+        mEtAmount.addTextChangedListener(/* watcher = */ object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
             }
 
@@ -58,11 +62,11 @@ class MainActivity : AppCompatActivity() {
         })
 
         mSeekBar.setOnSeekBarChangeListener(object : OnSeekBarChangeListener {
-            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean)
-            {
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
 //                Log.i(/* tag = */ TAG, /* msg = */ "onProgressChanged $progress")
                 computeTipTotalAndSetViews()
                 setTheHappinessInd(progress)
+                updateAppriciationColor(progress)
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar?) {}
@@ -71,26 +75,30 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
+    private fun updateAppriciationColor(progress: Int) {
+        val lFraction = progress.toFloat() / 30
+//        Log.i(TAG, "Current progress $i")
+        // Retrieve start color
+        val startColor = ContextCompat.getColor(this, R.color.red)
+        // Retrieve end color
+        val endColor = ContextCompat.getColor(this, R.color.green)
+        val interpolatedColor = ColorUtils.blendARGB(startColor, endColor, lFraction)
+        mHappynessIndView.setTextColor(interpolatedColor)
+    }
+
     private fun setTheHappinessInd(progress: Int) {
-        val lHappyTxt = when(progress)
-        {
-            in 0..9 ->"Poor"
-            in 10..14 ->"Acceptable"
-            in 15..19 ->"Good"
-            in 20..24 ->"Great"
+        val lHappyTxt = when (progress) {
+            in 0..9 -> "Poor"
+            in 10..14 -> "Acceptable"
+            in 15..19 -> "Good"
+            in 20..24 -> "Great"
             else -> "Amazing"
         }
         mHappynessIndView.text = lHappyTxt
-        /*
-        Todo
-        *   Add best and worst colors to themes file and interpolate between them
-        * to give a color to text
-        */
     }
 
     private fun computeTipTotalAndSetViews() {
-        if(mEtAmount.text.isEmpty())
-        {
+        if (mEtAmount.text.isEmpty()) {
             mTipView.text = ""
             mTotalView.text = ""
             return

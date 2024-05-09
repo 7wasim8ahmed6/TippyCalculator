@@ -9,5 +9,6 @@
     <color name="Grain_dark_green_abstract_background_design_texture_5">#FF107361</color>
     <color name="lightBlue">#ADD8E6</color>
     <color name="yellow">#FFFF00</color>
-
+    <color name="red">#FF0000</color>
+    <color name="green">#00FF00</color>
 </resources>
