@@ -1,9 +1,10 @@
 package com.example.mytipcalculator
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.widget.EditText
-import android.widget.ProgressBar
 import android.widget.SeekBar
 import android.widget.SeekBar.OnSeekBarChangeListener
 import android.widget.TextView
@@ -13,6 +14,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 
 private const val TAG = "MainActivity"
+private const val STARTAMT = 100
 class MainActivity : AppCompatActivity() {
     private lateinit var mEtAmount: EditText
     private lateinit var mSeekBar: SeekBar
@@ -34,15 +36,45 @@ class MainActivity : AppCompatActivity() {
         mTipView = findViewById(R.id.tvTipValue)
         mTotalView = findViewById(R.id.tvTotalAmt)
         mSeekBar = findViewById(R.id.sbTipAdjustBar)
+
+        mEtAmount.setText("$STARTAMT")
+        mPercentView.text = "15%"
+        mSeekBar.progress = mSeekBar.max/2
+        computeTipTotalAndSetViews()
+
+        mEtAmount.addTextChangedListener(/* watcher = */ object : TextWatcher{
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                computeTipTotalAndSetViews()
+            }
+        })
+
         mSeekBar.setOnSeekBarChangeListener(object : OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean)
             {
-                Log.i(/* tag = */ TAG, /* msg = */ "onProgressChanged $progress")
+//                Log.i(/* tag = */ TAG, /* msg = */ "onProgressChanged $progress")
+                computeTipTotalAndSetViews()
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar?) {}
 
             override fun onStopTrackingTouch(seekBar: SeekBar?) {}
         })
+    }
+
+    public fun computeTipTotalAndSetViews() {
+        val progress = mSeekBar.progress
+        mPercentView.text = "$progress%"
+        val amountText: String = mEtAmount.text.toString()
+        val amount = if (amountText.isNotEmpty()) amountText.toDouble() else 0.0
+        val value = amount * progress / 100
+        mTipView.text = String.format("%.2f", value) + "$"
+        val Total = value + amount
+        mTotalView.text = String.format("%.2f", Total) + "$"
     }
 }
