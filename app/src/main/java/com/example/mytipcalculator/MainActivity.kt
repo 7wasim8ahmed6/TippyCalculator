@@ -3,6 +3,7 @@ package com.example.mytipcalculator
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.widget.CheckBox
 import android.widget.EditText
 import android.widget.SeekBar
 import android.widget.SeekBar.OnSeekBarChangeListener
@@ -25,6 +26,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var mTipView: TextView
     private lateinit var mTotalView: TextView
     private lateinit var mHappynessIndView: TextView
+    private lateinit var mCbxSplitBill: CheckBox
+    private lateinit var mEtnSplittNos : EditText
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,6 +44,8 @@ class MainActivity : AppCompatActivity() {
         mTotalView = findViewById(R.id.tvTotalAmt)
         mHappynessIndView = findViewById(R.id.tvHappyIndicator)
         mSeekBar = findViewById(R.id.sbTipAdjustBar)
+        mCbxSplitBill = findViewById(R.id.cbxSplitBill)
+        mEtnSplittNos = findViewById(R.id.etnSplitNos)
 
         mEtAmount.setText("$STARTAMT")
         mPercentView.text = "STARTPERCENT%"
@@ -73,6 +78,17 @@ class MainActivity : AppCompatActivity() {
 
             override fun onStopTrackingTouch(seekBar: SeekBar?) {}
         })
+
+        mCbxSplitBill.setOnCheckedChangeListener { buttonView, isChecked ->
+            if (isChecked)
+            {
+                mEtnSplittNos.isEnabled = true
+            }
+            else
+            {
+                mEtnSplittNos.isEnabled = false
+            }
+        }
     }
 
     private fun updateAppriciationColor(progress: Int) {

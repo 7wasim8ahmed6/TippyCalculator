@@ -127,6 +127,23 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:text="@string/splitbill"
+        android:textAllCaps="false"
+        android:textSize="16sp"
+        android:textStyle="italic"
         app:layout_constraintStart_toStartOf="@+id/tvTotal"
         app:layout_constraintTop_toBottomOf="@+id/tvTotal" />
+
+    <EditText
+        android:id="@+id/etnSplitNos"
+        android:layout_width="213dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="30dp"
+        android:ems="10"
+        android:enabled="false"
+        android:inputType="number"
+        android:text="2"
+        android:textStyle="italic"
+        app:layout_constraintBottom_toBottomOf="@+id/cbxSplitBill"
+        app:layout_constraintStart_toEndOf="@+id/cbxSplitBill"
+        app:layout_constraintTop_toTopOf="@+id/cbxSplitBill" />
 </androidx.constraintlayout.widget.ConstraintLayout>
