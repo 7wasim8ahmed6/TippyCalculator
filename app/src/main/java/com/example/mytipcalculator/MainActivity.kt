@@ -27,7 +27,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var mTotalView: TextView
     private lateinit var mHappynessIndView: TextView
     private lateinit var mCbxSplitBill: CheckBox
-    private lateinit var mEtnSplittNos : EditText
+    private lateinit var mEtnSplittNos: EditText
+    private lateinit var mPerPersonAmt: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,8 +47,10 @@ class MainActivity : AppCompatActivity() {
         mSeekBar = findViewById(R.id.sbTipAdjustBar)
         mCbxSplitBill = findViewById(R.id.cbxSplitBill)
         mEtnSplittNos = findViewById(R.id.etnSplitNos)
+        mPerPersonAmt = findViewById(R.id.tvAmtPerPerson)
 
         mEtAmount.setText("$STARTAMT")
+        mPerPersonAmt.text = mTotalView.text.toString()
         mPercentView.text = "STARTPERCENT%"
         mSeekBar.progress = STARTPERCENT
         computeTipTotalAndSetViews()
@@ -79,17 +82,83 @@ class MainActivity : AppCompatActivity() {
             override fun onStopTrackingTouch(seekBar: SeekBar?) {}
         })
 
-        mCbxSplitBill.setOnCheckedChangeListener { buttonView, isChecked ->
-            if (isChecked)
-            {
+        mCbxSplitBill.setOnCheckedChangeListener { _, isChecked ->
+            if (isChecked) {
                 mEtnSplittNos.isEnabled = true
-            }
-            else
-            {
+                updateSplitBill()
+            } else {
                 mEtnSplittNos.isEnabled = false
+                mPerPersonAmt.text = ""
+            }
+        }
+
+        mEtnSplittNos.addTextChangedListener(object : TextWatcher {
+            /**
+             * This method is called to notify you that, within `s`,
+             * the `count` characters beginning at `start`
+             * are about to be replaced by new text with length `after`.
+             * It is an error to attempt to make changes to `s` from
+             * this callback.
+             */
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            /**
+             * This method is called to notify you that, within `s`,
+             * the `count` characters beginning at `start`
+             * have just replaced old text that had length `before`.
+             * It is an error to attempt to make changes to `s` from
+             * this callback.
+             */
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                updateSplitBill()
+            }
+
+            /**
+             * This method is called to notify you that, somewhere within
+             * `s`, the text has been changed.
+             * It is legitimate to make further changes to `s` from
+             * this callback, but be careful not to get yourself into an infinite
+             * loop, because any changes you make will cause this method to be
+             * called again recursively.
+             * (You are not told where the change took place because other
+             * afterTextChanged() methods may already have made other changes
+             * and invalidated the offsets.  But if you need to know here,
+             * you can use [Spannable.setSpan] in [.onTextChanged]
+             * to mark your place and then look up from here where the span
+             * ended up.
+             */
+            override fun afterTextChanged(s: Editable?) {
+            }
+        })
+    }
+
+private fun updateSplitBill() {
+    if (mEtAmount.text.isEmpty()) {
+        mPerPersonAmt.text = ""
+    } else {
+        val lTotalValStr = mTotalView.text.toString()
+        if (mEtnSplittNos.text.isEmpty()) {
+            mPerPersonAmt.text = lTotalValStr
+        } else {
+            try {
+                val toInt: Int = mEtnSplittNos.text.toString().toInt()
+                if (toInt == 0) {
+                    // Handle divide by zero error
+                    mPerPersonAmt.text = getString(/* resId = */ R.string.wash_the_dishes)
+                } else {
+                    val numericString = lTotalValStr.replace("€", "") // Remove the euro symbol
+                    val toDouble: Double = numericString.toDouble()
+                    val d: Double = toDouble / toInt
+                    mPerPersonAmt.text = String.format("%.2f", d) + "€"
+                }
+            } catch (e: NumberFormatException) {
+                // Handle parsing error
+                mPerPersonAmt.text = getString(R.string.invalid_input)
             }
         }
     }
+}
 
     private fun updateAppriciationColor(progress: Int) {
         val lFraction = progress.toFloat() / 30
@@ -125,7 +194,7 @@ class MainActivity : AppCompatActivity() {
         val amount = if (amountText.isNotEmpty()) amountText.toDouble() else 0.0
         val value = amount * progress / 100
         mTipView.text = String.format("%.2f", value) + "€"
-        val Total = value + amount
-        mTotalView.text = String.format("%.2f", Total) + "€"
+        val lTotal = value + amount
+        mTotalView.text = String.format("%.2f", lTotal) + "€"
     }
 }

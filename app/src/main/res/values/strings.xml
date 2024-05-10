@@ -7,4 +7,7 @@
     <string name="base">Base</string>
     <string name="bill_amount">Bill Amount</string>
     <string name="_startSplitBillDef">2</string>
+    <string name="total_per_person">Total per person</string>
+    <string name="wash_the_dishes">Wash the dishes</string>
+    <string name="invalid_input">Invalid input</string>
 </resources>

@@ -55,7 +55,7 @@
         android:ems="8"
         android:hint="@string/bill_amount"
         android:inputType="number|numberDecimal"
-        android:textAlignment="viewStart"
+        android:textAlignment="textStart"
         android:textColor="#2FA991"
         android:textColorHint="#546E7A"
         android:textSize="24sp"
@@ -143,8 +143,31 @@
         android:enabled="false"
         android:inputType="number"
         android:text="@string/_startSplitBillDef"
+        android:textAlignment="viewStart"
         android:textStyle="italic"
         app:layout_constraintBottom_toBottomOf="@+id/cbxSplitBill"
         app:layout_constraintStart_toEndOf="@+id/cbxSplitBill"
         app:layout_constraintTop_toTopOf="@+id/cbxSplitBill" />
+
+    <TextView
+        android:id="@+id/tvTotalPerPer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="@string/total_per_person"
+        android:textStyle="italic"
+        app:layout_constraintStart_toStartOf="@+id/cbxSplitBill"
+        app:layout_constraintTop_toBottomOf="@+id/cbxSplitBill" />
+
+    <TextView
+        android:id="@+id/tvAmtPerPerson"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:textSize="20sp"
+        android:textStyle="bold|italic"
+        app:layout_constraintBottom_toBottomOf="@+id/tvTotalPerPer"
+        app:layout_constraintStart_toEndOf="@+id/tvTotalPerPer"
+        app:layout_constraintTop_toTopOf="@+id/tvTotalPerPer"
+        tools:text="100" />
 </androidx.constraintlayout.widget.ConstraintLayout>
