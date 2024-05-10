@@ -6,4 +6,5 @@
     <string name="tip">Tip</string>
     <string name="base">Base</string>
     <string name="bill_amount">Bill Amount</string>
+    <string name="_startSplitBillDef">2</string>
 </resources>

@@ -15,7 +15,7 @@ import androidx.core.graphics.ColorUtils
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 
-private const val TAG = "MainActivity"
+//private const val TAG = "MainActivity"
 private const val STARTAMT = 100
 private const val STARTPERCENT = 15
 
