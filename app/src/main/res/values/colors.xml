@@ -12,4 +12,20 @@
     <color name="red">#FF0000</color>
     <color name="green">#00FF00</color>
     <color name="light_yellow">#FFFFE0</color>
+    <!-- Background color -->
+    <color name="background_color">#FFFFFF</color>
+
+    <!-- Primary color -->
+    <color name="primary_color">#007ACC</color>
+
+    <!-- Secondary color -->
+    <color name="secondary_color">#D8D8D8</color>
+    <!-- Background color night-->
+    <color name="background_color_night">#2D2D2D</color>
+
+    <!-- Primary color night-->
+    <color name="primary_color_night">#1E1E1E</color>
+
+    <!-- Secondary color night-->
+    <color name="secondary_color_night">#007ACC</color>
 </resources>
