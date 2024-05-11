@@ -10,4 +10,9 @@
     <string name="total_per_person">Total per person</string>
     <string name="wash_the_dishes">Wash the dishes</string>
     <string name="invalid_input">Invalid input</string>
+    <string name="poor_face">🙁</string>
+    <string name="acceptable_face">😐</string>
+    <string name="good_face">🙂</string>
+    <string name="great_face">😀</string>
+    <string name="amazing_face">😃</string>
 </resources>

@@ -173,11 +173,11 @@ private fun updateSplitBill() {
 
     private fun setTheHappinessInd(progress: Int) {
         val lHappyTxt = when (progress) {
-            in 0..9 -> "Poor"
-            in 10..14 -> "Acceptable"
-            in 15..19 -> "Good"
-            in 20..24 -> "Great"
-            else -> "Amazing"
+            in 0..9 -> getString(R.string.poor_face) // Poor (sad face)
+            in 10..14 -> getString(R.string.acceptable_face) // Acceptable (neutral face)
+            in 15..19 -> getString(R.string.good_face) // Good (slightly smiling face)
+            in 20..24 -> getString(R.string.great_face) // Great (grinning face)
+            else -> getString(R.string.amazing_face) // Amazing (tears of joy)
         }
         mHappynessIndView.text = lHappyTxt
     }
