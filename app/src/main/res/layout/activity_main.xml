@@ -172,4 +172,36 @@
         app:layout_constraintStart_toEndOf="@+id/tvTotalPerPer"
         app:layout_constraintTop_toTopOf="@+id/tvTotalPerPer"
         tools:text="100" />
+
+    <TextView
+        android:id="@+id/tvUp"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="2dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:foreground="@drawable/baseline_arrow_drop_up_24"
+        android:textAlignment="textStart"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@+id/tvDn"
+        app:layout_constraintStart_toEndOf="@+id/tvDn"
+        app:layout_constraintTop_toTopOf="@+id/tvDn"
+        tools:text="up" />
+
+    <TextView
+        android:id="@+id/tvDn"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="8dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:foreground="@drawable/baseline_arrow_drop_down_24"
+        android:textAlignment="textStart"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@+id/tvTipValue"
+        app:layout_constraintStart_toEndOf="@+id/tvTipValue"
+        app:layout_constraintTop_toTopOf="@+id/tvTipValue"
+        tools:ignore="TextSizeCheck"
+        tools:text="down" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
