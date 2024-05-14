@@ -8,6 +8,7 @@ import android.widget.EditText
 import android.widget.SeekBar
 import android.widget.SeekBar.OnSeekBarChangeListener
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -29,6 +30,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var mCbxSplitBill: CheckBox
     private lateinit var mEtnSplittNos: EditText
     private lateinit var mPerPersonAmt: TextView
+    private lateinit var mRoundUp: TextView
+    private lateinit var mRoundDown: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,6 +51,8 @@ class MainActivity : AppCompatActivity() {
         mCbxSplitBill = findViewById(R.id.cbxSplitBill)
         mEtnSplittNos = findViewById(R.id.etnSplitNos)
         mPerPersonAmt = findViewById(R.id.tvAmtPerPerson)
+        mRoundUp = findViewById(R.id.tvUp)
+        mRoundDown = findViewById(R.id.tvDn)
 
         mEtAmount.setText("$STARTAMT")
         mPerPersonAmt.text = mTotalView.text.toString()
@@ -131,6 +136,47 @@ class MainActivity : AppCompatActivity() {
             override fun afterTextChanged(s: Editable?) {
             }
         })
+
+        mRoundUp.setOnClickListener {
+            val tipAmountText: String = mTipView.text.toString()
+            if(tipAmountText.isNotEmpty())
+            {
+                // Convert the tip amount text to a Double
+                val numericStr = tipAmountText.replace("€", "")
+                val tipAmount = numericStr.toDouble()
+
+                // Round up the tip amount
+                val roundedTipAmount = kotlin.math.ceil(tipAmount)
+                if(!mEtAmount.text.isEmpty())
+                {
+                    val lBillAmt = mEtAmount.text.toString()
+                    val percentage = roundedTipAmount * 100 / lBillAmt.toDouble()
+//                    mSeekBar.setProgress(percentage.toInt())
+                }
+            }
+            else
+            {
+                // Handle the case where the tip amount text is empty
+                Toast.makeText(applicationContext, "Tip amount is empty", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        mRoundDown.setOnClickListener {
+            val tipAmountText: String = mTipView.text.toString()
+            if(tipAmountText.isNotEmpty())
+            {
+                // Convert the tip amount text to a Double
+                val numericStr = tipAmountText.replace("€", "")
+                val tipAmount = numericStr.toDouble()
+                // Round up the tip amount
+                val roundedTipAmount = kotlin.math.floor(tipAmount)
+            }
+            else
+            {
+                // Handle the case where the tip amount text is empty
+                Toast.makeText(applicationContext, "Tip amount is empty", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
 private fun updateSplitBill() {

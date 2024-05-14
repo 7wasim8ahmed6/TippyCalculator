@@ -140,7 +140,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
         android:autofillHints=""
-        android:ems="10"
+        android:ems="4"
         android:enabled="false"
         android:inputType="number"
         android:minHeight="48dp"
