@@ -152,7 +152,8 @@ class MainActivity : AppCompatActivity() {
                 {
                     val lBillAmt = mEtAmount.text.toString()
                     val percentage = roundedTipAmount * 100 / lBillAmt.toDouble()
-//                    mSeekBar.setProgress(percentage.toInt())
+                    val lUnits = decimalToUnits(percentage)
+                    mSeekBar.setProgress(lUnits)
                 }
             }
             else
@@ -171,6 +172,13 @@ class MainActivity : AppCompatActivity() {
                 val tipAmount = numericStr.toDouble()
                 // Round up the tip amount
                 val roundedTipAmount = kotlin.math.floor(tipAmount)
+                if(mEtAmount.text.isNotEmpty())
+                {
+                    val lBillAmt = mEtAmount.text.toString()
+                    val percentage = roundedTipAmount * 100 / lBillAmt.toDouble()
+                    val lUnits = decimalToUnits(percentage)
+                    mSeekBar.setProgress(lUnits)
+                }
             }
             else
             {
