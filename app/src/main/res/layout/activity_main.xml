@@ -68,7 +68,7 @@
         android:id="@+id/sbTipAdjustBar"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:max="30"
+        android:max="3000"
         android:progressTint="@color/black"
         app:layout_constraintBottom_toBottomOf="@+id/tvPercent"
         app:layout_constraintStart_toStartOf="@+id/etAmount"
@@ -76,7 +76,7 @@
 
     <TextView
         android:id="@+id/tvTipValue"
-        android:layout_width="wrap_content"
+        android:layout_width="96dp"
         android:layout_height="wrap_content"
         android:textSize="20sp"
         android:textStyle="bold"
@@ -192,7 +192,6 @@
         android:id="@+id/tvDn"
         android:layout_width="48dp"
         android:layout_height="48dp"
-        android:layout_marginStart="8dp"
         android:clickable="true"
         android:focusable="true"
         android:foreground="@drawable/baseline_arrow_drop_down_24"

@@ -18,7 +18,7 @@ import androidx.core.view.WindowInsetsCompat
 
 //private const val TAG = "MainActivity"
 private const val STARTAMT = 100
-private const val STARTPERCENT = 15
+private const val STARTPERCENT = 15.00
 
 class MainActivity : AppCompatActivity() {
     private lateinit var mEtAmount: EditText
@@ -57,7 +57,7 @@ class MainActivity : AppCompatActivity() {
         mEtAmount.setText("$STARTAMT")
         mPerPersonAmt.text = mTotalView.text.toString()
         mPercentView.text = "STARTPERCENT%"
-        mSeekBar.progress = STARTPERCENT
+        mSeekBar.progress = decimalToUnits(STARTPERCENT)
         computeTipTotalAndSetViews()
         setTheHappinessInd(STARTPERCENT)
         updateAppriciationColor(STARTPERCENT)
@@ -77,9 +77,10 @@ class MainActivity : AppCompatActivity() {
         mSeekBar.setOnSeekBarChangeListener(object : OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
 //                Log.i(/* tag = */ TAG, /* msg = */ "onProgressChanged $progress")
+                val decimalProgress = unitsToDecimal(progress)
                 computeTipTotalAndSetViews()
-                setTheHappinessInd(progress)
-                updateAppriciationColor(progress)
+                setTheHappinessInd(decimalProgress)
+                updateAppriciationColor(decimalProgress)
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar?) {}
@@ -206,9 +207,9 @@ private fun updateSplitBill() {
     }
 }
 
-    private fun updateAppriciationColor(progress: Int) {
-        val lFraction = progress.toFloat() / 30
-//        Log.i(TAG, "Current progress $i")
+    private fun updateAppriciationColor(decimalProgress: Double) {
+        val progress = decimalToUnits(decimalProgress)
+        val lFraction = progress.toFloat() / 3000
         // Retrieve start color
         val startColor = ContextCompat.getColor(this, R.color.red)
         // Retrieve end color
@@ -217,12 +218,13 @@ private fun updateSplitBill() {
         mHappynessIndView.setTextColor(interpolatedColor)
     }
 
-    private fun setTheHappinessInd(progress: Int) {
-        val lHappyTxt = when (progress) {
-            in 0..9 -> getString(R.string.poor_face) // Poor (sad face)
-            in 10..14 -> getString(R.string.acceptable_face) // Acceptable (neutral face)
-            in 15..19 -> getString(R.string.good_face) // Good (slightly smiling face)
-            in 20..24 -> getString(R.string.great_face) // Great (grinning face)
+    private fun setTheHappinessInd(decimalProgress: Double) {
+        val progress = decimalToUnits(decimalProgress)
+        val lHappyTxt = when {
+            progress in 0..999 -> getString(R.string.poor_face) // Poor (sad face)
+            progress in 1000..1499 -> getString(R.string.acceptable_face) // Acceptable (neutral face)
+            progress in 1500..1999 -> getString(R.string.good_face) // Good (slightly smiling face)
+            progress in 2000..2499 -> getString(R.string.great_face) // Great (grinning face)
             else -> getString(R.string.amazing_face) // Amazing (tears of joy)
         }
         mHappynessIndView.text = lHappyTxt
@@ -234,13 +236,21 @@ private fun updateSplitBill() {
             mTotalView.text = ""
             return
         }
-        val progress = mSeekBar.progress
-        mPercentView.text = "$progress%"
+        val decimalProgress = unitsToDecimal(mSeekBar.progress)
+        mPercentView.text = String.format("%.2f%%", decimalProgress)
         val amountText: String = mEtAmount.text.toString()
         val amount = if (amountText.isNotEmpty()) amountText.toDouble() else 0.0
-        val value = amount * progress / 100
+        val value = amount * decimalProgress / 100
         mTipView.text = String.format("%.2f", value) + "€"
         val lTotal = value + amount
         mTotalView.text = String.format("%.2f", lTotal) + "€"
+    }
+
+    private fun decimalToUnits(decimal: Double): Int {
+        return (decimal * 100).toInt()
+    }
+
+    private fun unitsToDecimal(units: Int): Double {
+        return units.toDouble() / 100
     }
 }
