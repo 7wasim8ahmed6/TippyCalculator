@@ -148,7 +148,7 @@ class MainActivity : AppCompatActivity() {
 
                 // Round up the tip amount
                 val roundedTipAmount = kotlin.math.ceil(tipAmount)
-                if(!mEtAmount.text.isEmpty())
+                if(mEtAmount.text.isNotEmpty())
                 {
                     val lBillAmt = mEtAmount.text.toString()
                     val percentage = roundedTipAmount * 100 / lBillAmt.toDouble()
@@ -220,11 +220,11 @@ private fun updateSplitBill() {
 
     private fun setTheHappinessInd(decimalProgress: Double) {
         val progress = decimalToUnits(decimalProgress)
-        val lHappyTxt = when {
-            progress in 0..999 -> getString(R.string.poor_face) // Poor (sad face)
-            progress in 1000..1499 -> getString(R.string.acceptable_face) // Acceptable (neutral face)
-            progress in 1500..1999 -> getString(R.string.good_face) // Good (slightly smiling face)
-            progress in 2000..2499 -> getString(R.string.great_face) // Great (grinning face)
+        val lHappyTxt = when (progress) {
+            in 0..999 -> getString(R.string.poor_face) // Poor (sad face)
+            in 1000..1499 -> getString(R.string.acceptable_face) // Acceptable (neutral face)
+            in 1500..1999 -> getString(R.string.good_face) // Good (slightly smiling face)
+            in 2000..2499 -> getString(R.string.great_face) // Great (grinning face)
             else -> getString(R.string.amazing_face) // Amazing (tears of joy)
         }
         mHappynessIndView.text = lHappyTxt
