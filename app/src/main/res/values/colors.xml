@@ -28,4 +28,12 @@
 
     <!-- Secondary color night-->
     <color name="secondary_color_night">#007ACC</color>
+    <color name="my_light_primary">#3F51B5</color> <!-- Blue primary color -->
+    <color name="my_light_secondary">#FF4081</color> <!-- Pink secondary color -->
+    <color name="my_dark_primary">#2196F3</color> <!-- Dark blue primary color -->
+    <color name="my_dark_secondary">#FF4081</color> <!-- Pink secondary color -->
+    <color name="text_color_primary_light">#212121</color> <!-- Dark text color -->
+    <color name="text_color_secondary_light">#FFFFFF</color> <!-- White text color -->
+    <color name="text_color_primary_dark">#FFFFFF</color> <!-- White text color -->
+    <color name="text_color_secondary_dark">#212121</color> <!-- Dark text color -->
 </resources>

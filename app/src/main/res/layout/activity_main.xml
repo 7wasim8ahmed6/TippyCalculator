@@ -56,7 +56,6 @@
         android:hint="@string/bill_amount"
         android:inputType="number|numberDecimal"
         android:textAlignment="textStart"
-        android:textColor="@color/black"
         android:textColorHint="#546E7A"
         android:textSize="24sp"
         android:textStyle="bold"
