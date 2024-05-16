@@ -291,10 +291,22 @@ class MainActivity : AppCompatActivity() {
         mPercentView.text = String.format("%.2f%%", decimalProgress)
         val amountText: String = mEtAmount.text.toString()
         val amount = if (amountText.isNotEmpty()) amountText.toDouble() else 0.0
-        val value = amount * decimalProgress / 100
+        var value = amount * decimalProgress / 100
+        value = roundToNearestWhole(value)
         mTipView.text = String.format("%.2f", value) + "€"
         val lTotal = value + amount
         mTotalView.text = String.format("%.2f", lTotal) + "€"
+    }
+
+    private fun roundToNearestWhole(number: Double): Double {
+        val decimalPart = number - number.toInt()
+        return if (decimalPart >= 0.98) {
+            Math.ceil(number)
+        } else if (decimalPart <= 0.02) {
+            Math.floor(number)
+        } else {
+            number
+        }
     }
 
     private fun decimalToUnits(decimal: Double): Int {
