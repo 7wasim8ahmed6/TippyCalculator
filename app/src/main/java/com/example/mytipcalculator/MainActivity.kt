@@ -3,10 +3,14 @@ package com.example.mytipcalculator
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.View
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import android.widget.CheckBox
 import android.widget.EditText
 import android.widget.SeekBar
 import android.widget.SeekBar.OnSeekBarChangeListener
+import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
@@ -32,6 +36,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var mPerPersonAmt: TextView
     private lateinit var mRoundUp: TextView
     private lateinit var mRoundDown: TextView
+    private lateinit var mTipSpinner: Spinner
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,6 +58,8 @@ class MainActivity : AppCompatActivity() {
         mPerPersonAmt = findViewById(R.id.tvAmtPerPerson)
         mRoundUp = findViewById(R.id.tvUp)
         mRoundDown = findViewById(R.id.tvDn)
+        mTipSpinner = findViewById(R.id.spnTip)
+        addContentsToSpinner()
 
         mEtAmount.setText("$STARTAMT")
         mPerPersonAmt.text = mTotalView.text.toString()
@@ -81,6 +88,8 @@ class MainActivity : AppCompatActivity() {
                 computeTipTotalAndSetViews()
                 setTheHappinessInd(decimalProgress)
                 updateAppriciationColor(decimalProgress)
+                if(mCbxSplitBill.isChecked())
+                    updateSplitBill()
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar?) {}
@@ -188,7 +197,41 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-private fun updateSplitBill() {
+    private fun addContentsToSpinner() {
+        val serviceQualityOptions = listOf("Poor", "Acceptable", "Good", "Great", "Amazing")
+        val tipPercentages = mapOf(
+            "Poor" to 500,
+            "Acceptable" to 1250,
+            "Good" to 1750,
+            "Great" to 2250,
+            "Amazing" to 2750
+        )
+        // Set up the Spinner for service quality
+        val serviceAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, serviceQualityOptions)
+        serviceAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        mTipSpinner.adapter = serviceAdapter
+        mTipSpinner.onItemSelectedListener = object :AdapterView.OnItemSelectedListener{
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+                val selectedServiceQuality = serviceQualityOptions[position]
+                val seekBarVal = tipPercentages[selectedServiceQuality]
+                if (seekBarVal != null) {
+                    mSeekBar.progress = seekBarVal
+                }
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                // Do nothing
+            }
+        }
+        mTipSpinner.setSelection(serviceQualityOptions.indexOf("Good")) // Set spinner to "Good"
+    }
+
+    private fun updateSplitBill() {
     if (mEtAmount.text.isEmpty()) {
         mPerPersonAmt.text = ""
     } else {
