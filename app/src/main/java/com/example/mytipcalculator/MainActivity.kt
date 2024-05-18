@@ -23,8 +23,6 @@ import androidx.core.content.ContextCompat
 import androidx.core.graphics.ColorUtils
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.core.widget.addTextChangedListener
-import org.w3c.dom.Text
 
 //private const val TAG = "MainActivity"
 private const val STARTAMT = 100
