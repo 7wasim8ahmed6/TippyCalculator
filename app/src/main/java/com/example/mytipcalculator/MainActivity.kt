@@ -1,6 +1,7 @@
 package com.example.mytipcalculator
 
 import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -22,12 +23,15 @@ import androidx.core.content.ContextCompat
 import androidx.core.graphics.ColorUtils
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.core.widget.addTextChangedListener
+import org.w3c.dom.Text
 
 //private const val TAG = "MainActivity"
 private const val STARTAMT = 100
 private const val STARTPERCENT = 15.00
 
 class MainActivity : AppCompatActivity() {
+    private lateinit var mSharedPreferences: SharedPreferences
     private lateinit var mEtAmount: EditText
     private lateinit var mSeekBar: SeekBar
     private lateinit var mPercentView: TextView
@@ -41,8 +45,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var mRoundDown: TextView
     private lateinit var mTipSpinner: Spinner
     private lateinit var mAutoCompleteTextView: AutoCompleteTextView
-    private lateinit var mTVSymbol : TextView
-    private lateinit var mCurrencySymbols : Array<String>
+    private lateinit var mTVSymbol: TextView
+    private lateinit var mCurrencySymbols: Array<String>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -67,23 +71,55 @@ class MainActivity : AppCompatActivity() {
         mTipSpinner = findViewById(R.id.spnTip)
         mAutoCompleteTextView = findViewById(R.id.autocomplete_currency)
         mTVSymbol = findViewById(R.id.textview_currency_symbol)
+
         addContentsToSpinner()
         val currencies = resources.getStringArray(R.array.currency_array)
         mCurrencySymbols = resources.getStringArray(R.array.currency_symbols)
-        val adapter: ArrayAdapter<String> = ArrayAdapter(this, android.R.layout.select_dialog_item, currencies)
+        val adapter: ArrayAdapter<String> =
+            ArrayAdapter(this, android.R.layout.select_dialog_item, currencies)
         mAutoCompleteTextView.threshold = 1
         mAutoCompleteTextView.setAdapter(adapter)
-        mAutoCompleteTextView.setOnItemClickListener { parent, view, position, id ->
+        mAutoCompleteTextView.setOnItemClickListener { parent, _, position, _ ->
             // Retrieve the clicked item and its position
             val clickedItem = parent.getItemAtPosition(position).toString()
             val actualPosition = currencies.indexOf(clickedItem)
             // Use this position to get the corresponding symbol from the currency symbols array
             val symbol = if (actualPosition != -1) mCurrencySymbols[actualPosition] else "Unknown"
+            //change tip value string
+            var lStr = mTipView.text.toString()
+            var lToReplace = mTVSymbol.text.toString()
+            lStr = lStr.replace(lToReplace, symbol)
+            mTipView.text = lStr
+            //change total amount string
+            lStr = mTotalView.text.toString()
+            lStr = lStr.replace(mTVSymbol.text.toString(), symbol)
+            mTotalView.text = lStr
+            //change per person amount too
+            lStr = mPerPersonAmt.text.toString()
+            lStr = lStr.replace(mTVSymbol.text.toString(), symbol)
+            mPerPersonAmt.text = lStr
+
             // Set the symbol to the TextView
             mTVSymbol.text = symbol
+
+            with(mSharedPreferences.edit()) {
+                putString("selected_currency", clickedItem)
+                apply()
+            }
+
+
             mAutoCompleteTextView.clearFocus()
             val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             imm.hideSoftInputFromWindow(mAutoCompleteTextView.windowToken, 0)
+        }
+        // Set initial selection from SharedPreferences
+        mSharedPreferences = getSharedPreferences("currency_prefs", Context.MODE_PRIVATE)
+        val selectedCurrency = mSharedPreferences.getString("selected_currency", "EUR")
+        if (selectedCurrency != null && currencies.contains(selectedCurrency)) {
+            val actualPosition = currencies.indexOf(selectedCurrency)
+            mAutoCompleteTextView.setText(selectedCurrency, false)
+            val symbol = if (actualPosition != -1) mCurrencySymbols[actualPosition] else "X"
+            mTVSymbol.text = symbol
         }
 
         mEtAmount.setText("$STARTAMT")
@@ -113,7 +149,7 @@ class MainActivity : AppCompatActivity() {
                 computeTipTotalAndSetViews()
                 setTheHappinessInd(decimalProgress)
                 updateAppriciationColor(decimalProgress)
-                if(mCbxSplitBill.isChecked())
+                if (mCbxSplitBill.isChecked())
                     updateSplitBill()
             }
 
@@ -174,24 +210,20 @@ class MainActivity : AppCompatActivity() {
 
         mRoundUp.setOnClickListener {
             val tipAmountText: String = mTipView.text.toString()
-            if(tipAmountText.isNotEmpty())
-            {
+            if (tipAmountText.isNotEmpty()) {
                 // Convert the tip amount text to a Double
-                val numericStr = tipAmountText.replace("€", "")
+                val numericStr = tipAmountText.replace(mTVSymbol.text.toString(), "")
                 val tipAmount = numericStr.toDouble()
 
                 // Round up the tip amount
                 val roundedTipAmount = kotlin.math.ceil(tipAmount)
-                if(mEtAmount.text.isNotEmpty())
-                {
+                if (mEtAmount.text.isNotEmpty()) {
                     val lBillAmt = mEtAmount.text.toString()
                     val percentage = roundedTipAmount * 100 / lBillAmt.toDouble()
                     val lUnits = decimalToUnits(percentage)
                     mSeekBar.setProgress(lUnits)
                 }
-            }
-            else
-            {
+            } else {
                 // Handle the case where the tip amount text is empty
                 Toast.makeText(applicationContext, "Tip amount is empty", Toast.LENGTH_SHORT).show()
             }
@@ -199,23 +231,19 @@ class MainActivity : AppCompatActivity() {
 
         mRoundDown.setOnClickListener {
             val tipAmountText: String = mTipView.text.toString()
-            if(tipAmountText.isNotEmpty())
-            {
+            if (tipAmountText.isNotEmpty()) {
                 // Convert the tip amount text to a Double
-                val numericStr = tipAmountText.replace("€", "")
+                val numericStr = tipAmountText.replace(mTVSymbol.text.toString(), "")
                 val tipAmount = numericStr.toDouble()
                 // Round up the tip amount
                 val roundedTipAmount = kotlin.math.floor(tipAmount)
-                if(mEtAmount.text.isNotEmpty())
-                {
+                if (mEtAmount.text.isNotEmpty()) {
                     val lBillAmt = mEtAmount.text.toString()
                     val percentage = roundedTipAmount * 100 / lBillAmt.toDouble()
                     val lUnits = decimalToUnits(percentage)
                     mSeekBar.setProgress(lUnits)
                 }
-            }
-            else
-            {
+            } else {
                 // Handle the case where the tip amount text is empty
                 Toast.makeText(applicationContext, "Tip amount is empty", Toast.LENGTH_SHORT).show()
             }
@@ -232,10 +260,11 @@ class MainActivity : AppCompatActivity() {
             "Amazing" to 2750
         )
         // Set up the Spinner for service quality
-        val serviceAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, serviceQualityOptions)
+        val serviceAdapter =
+            ArrayAdapter(this, android.R.layout.simple_spinner_item, serviceQualityOptions)
         serviceAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         mTipSpinner.adapter = serviceAdapter
-        mTipSpinner.onItemSelectedListener = object :AdapterView.OnItemSelectedListener{
+        mTipSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
                 parent: AdapterView<*>?,
                 view: View?,
@@ -257,31 +286,34 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun updateSplitBill() {
-    if (mEtAmount.text.isEmpty()) {
-        mPerPersonAmt.text = ""
-    } else {
-        val lTotalValStr = mTotalView.text.toString()
-        if (mEtnSplittNos.text.isEmpty()) {
-            mPerPersonAmt.text = lTotalValStr
+        if (mEtAmount.text.isEmpty()) {
+            mPerPersonAmt.text = ""
         } else {
-            try {
-                val toInt: Int = mEtnSplittNos.text.toString().toInt()
-                if (toInt == 0) {
-                    // Handle divide by zero error
-                    mPerPersonAmt.text = getString(/* resId = */ R.string.wash_the_dishes)
-                } else {
-                    val numericString = lTotalValStr.replace("€", "") // Remove the euro symbol
-                    val toDouble: Double = numericString.toDouble()
-                    val d: Double = toDouble / toInt
-                    mPerPersonAmt.text = String.format("%.2f", d) + "€"
+            val lTotalValStr = mTotalView.text.toString()
+            if (mEtnSplittNos.text.isEmpty()) {
+                mPerPersonAmt.text = lTotalValStr
+            } else {
+                try {
+                    val toInt: Int = mEtnSplittNos.text.toString().toInt()
+                    if (toInt == 0) {
+                        // Handle divide by zero error
+                        mPerPersonAmt.text = getString(/* resId = */ R.string.wash_the_dishes)
+                    } else {
+                        val numericString = lTotalValStr.replace(
+                            mTVSymbol.text.toString(),
+                            ""
+                        ) // Remove the euro symbol
+                        val toDouble: Double = numericString.toDouble()
+                        val d: Double = toDouble / toInt
+                        mPerPersonAmt.text = String.format("%.2f", d) + mTVSymbol.text.toString()
+                    }
+                } catch (e: NumberFormatException) {
+                    // Handle parsing error
+                    mPerPersonAmt.text = getString(R.string.invalid_input)
                 }
-            } catch (e: NumberFormatException) {
-                // Handle parsing error
-                mPerPersonAmt.text = getString(R.string.invalid_input)
             }
         }
     }
-}
 
     private fun updateAppriciationColor(decimalProgress: Double) {
         val progress = decimalToUnits(decimalProgress)
@@ -318,9 +350,9 @@ class MainActivity : AppCompatActivity() {
         val amount = if (amountText.isNotEmpty()) amountText.toDouble() else 0.0
         var value = amount * decimalProgress / 100
         value = roundToNearestWhole(value)
-        mTipView.text = String.format("%.2f", value) + "€"
+        mTipView.text = String.format("%.2f", value) + mTVSymbol.text.toString()
         val lTotal = value + amount
-        mTotalView.text = String.format("%.2f", lTotal) + "€"
+        mTotalView.text = String.format("%.2f", lTotal) + mTVSymbol.text.toString()
     }
 
     private fun roundToNearestWhole(number: Double): Double {
