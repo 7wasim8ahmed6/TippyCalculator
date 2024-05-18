@@ -23,9 +23,10 @@ import androidx.core.content.ContextCompat
 import androidx.core.graphics.ColorUtils
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import buisnessLogic
 
 //private const val TAG = "MainActivity"
-private const val STARTAMT = 100
+private const val STARTAMT = 100.00
 private const val STARTPERCENT = 15.00
 
 class MainActivity : AppCompatActivity() {
@@ -45,6 +46,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var mAutoCompleteTextView: AutoCompleteTextView
     private lateinit var mTVSymbol: TextView
     private lateinit var mCurrencySymbols: Array<String>
+    private lateinit var mbuisnessLogic: buisnessLogic
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,6 +57,7 @@ class MainActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+        mbuisnessLogic = buisnessLogic(STARTAMT, STARTPERCENT)
         mEtAmount = findViewById(R.id.etAmount)
         mPercentView = findViewById(R.id.tvPercent)
         mTipView = findViewById(R.id.tvTipValue)
