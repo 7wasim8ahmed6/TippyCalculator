@@ -10,10 +10,95 @@
     <string name="total_per_person">Total per person</string>
     <string name="wash_the_dishes">Wash the dishes</string>
     <string name="invalid_input">Invalid input</string>
-    <string name="poor_face">🙁</string>
-    <string name="acceptable_face">😐</string>
-    <string name="good_face">🙂</string>
-    <string name="great_face">😀</string>
-    <string name="amazing_face">😃</string>
+    <string name="poor_face" translatable="false">🙁</string>
+    <string name="acceptable_face" translatable="false">😐</string>
+    <string name="good_face" translatable="false">🙂</string>
+    <string name="great_face" translatable="false">😀</string>
+    <string name="amazing_face" translatable="false">😃</string>
     <string name="tip_quality">Tip Quality</string>
+    <string name="select_currency">Currency</string>
+    <string-array name="currency_array">
+        <item>USD</item>
+        <item>EUR</item>
+        <item>JPY</item>
+        <item>GBP</item>
+        <item>AUD</item>
+        <item>CAD</item>
+        <item>CHF</item>
+        <item>CNY</item>
+        <item>SEK</item>
+        <item>NZD</item>
+        <item>MXN</item>
+        <item>SGD</item>
+        <item>HKD</item>
+        <item>NOK</item>
+        <item>KRW</item>
+        <item>TRY</item>
+        <item>INR</item>
+        <item>RUB</item>
+        <item>BRL</item>
+        <item>ZAR</item>
+        <item>PLN</item>
+        <item>DKK</item>
+        <item>MYR</item>
+        <item>IDR</item>
+        <item>THB</item>
+        <item>HUF</item>
+        <item>CZK</item>
+        <item>ILS</item>
+        <item>CLP</item>
+        <item>PEN</item>
+        <item>AED</item>
+        <item>COP</item>
+        <item>SAR</item>
+        <item>PHP</item>
+        <item>PKR</item>
+        <item>EGP</item>
+        <item>VND</item>
+        <item>BDT</item>
+        <item>NGN</item>
+        <item>UAH</item>
+    </string-array>
+    <string-array name="currency_symbols">
+        <item>$</item>
+        <item>€</item>
+        <item>¥</item>
+        <item>£</item>
+        <item>$</item>
+        <item>$</item>
+        <item>CHF</item>
+        <item>¥</item>
+        <item>kr</item>
+        <item>$</item>
+        <item>$</item>
+        <item>$</item>
+        <item>$</item>
+        <item>kr</item>
+        <item>₩</item>
+        <item>₺</item>
+        <item>₹</item>
+        <item>₽</item>
+        <item>R$</item>
+        <item>R</item>
+        <item>zł</item>
+        <item>kr</item>
+        <item>RM</item>
+        <item>Rp</item>
+        <item>฿</item>
+        <item>Ft</item>
+        <item>Kč</item>
+        <item>₪</item>
+        <item>$</item>
+        <item>S/</item>
+        <item>د.إ</item>
+        <item>$</item>
+        <item>ر.س</item>
+        <item>₱</item>
+        <item>₨</item>
+        <item>£</item>
+        <item>₫</item>
+        <item>৳</item>
+        <item>₦</item>
+        <item>₴</item>
+    </string-array>
 </resources>

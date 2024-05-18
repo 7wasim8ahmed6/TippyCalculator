@@ -222,4 +222,28 @@
         app:layout_constraintStart_toStartOf="@+id/tvBaseView"
         app:layout_constraintTop_toBottomOf="@+id/tvPercent" />
 
+    <AutoCompleteTextView
+        android:id="@+id/autocomplete_currency"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:layout_marginTop="32dp"
+        android:ems="4"
+        android:hint="@string/select_currency"
+        android:inputType="text"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="@+id/tvTotalPerPer"
+        app:layout_constraintTop_toBottomOf="@+id/tvTotalPerPer" />
+
+    <TextView
+        android:id="@+id/textview_currency_symbol"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="@+id/autocomplete_currency"
+        app:layout_constraintStart_toEndOf="@+id/autocomplete_currency"
+        app:layout_constraintTop_toTopOf="@+id/autocomplete_currency"
+        tools:text="Sym" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

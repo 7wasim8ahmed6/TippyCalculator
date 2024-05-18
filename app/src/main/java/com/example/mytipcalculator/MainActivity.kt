@@ -1,11 +1,14 @@
 package com.example.mytipcalculator
 
+import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.AutoCompleteTextView
 import android.widget.CheckBox
 import android.widget.EditText
 import android.widget.SeekBar
@@ -37,6 +40,9 @@ class MainActivity : AppCompatActivity() {
     private lateinit var mRoundUp: TextView
     private lateinit var mRoundDown: TextView
     private lateinit var mTipSpinner: Spinner
+    private lateinit var mAutoCompleteTextView: AutoCompleteTextView
+    private lateinit var mTVSymbol : TextView
+    private lateinit var mCurrencySymbols : Array<String>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,7 +65,26 @@ class MainActivity : AppCompatActivity() {
         mRoundUp = findViewById(R.id.tvUp)
         mRoundDown = findViewById(R.id.tvDn)
         mTipSpinner = findViewById(R.id.spnTip)
+        mAutoCompleteTextView = findViewById(R.id.autocomplete_currency)
+        mTVSymbol = findViewById(R.id.textview_currency_symbol)
         addContentsToSpinner()
+        val currencies = resources.getStringArray(R.array.currency_array)
+        mCurrencySymbols = resources.getStringArray(R.array.currency_symbols)
+        val adapter: ArrayAdapter<String> = ArrayAdapter(this, android.R.layout.select_dialog_item, currencies)
+        mAutoCompleteTextView.threshold = 1
+        mAutoCompleteTextView.setAdapter(adapter)
+        mAutoCompleteTextView.setOnItemClickListener { parent, view, position, id ->
+            // Retrieve the clicked item and its position
+            val clickedItem = parent.getItemAtPosition(position).toString()
+            val actualPosition = currencies.indexOf(clickedItem)
+            // Use this position to get the corresponding symbol from the currency symbols array
+            val symbol = if (actualPosition != -1) mCurrencySymbols[actualPosition] else "Unknown"
+            // Set the symbol to the TextView
+            mTVSymbol.text = symbol
+            mAutoCompleteTextView.clearFocus()
+            val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            imm.hideSoftInputFromWindow(mAutoCompleteTextView.windowToken, 0)
+        }
 
         mEtAmount.setText("$STARTAMT")
         mPerPersonAmt.text = mTotalView.text.toString()
