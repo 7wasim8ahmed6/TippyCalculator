@@ -86,19 +86,10 @@ class MainActivity : AppCompatActivity() {
             val actualPosition = currencies.indexOf(clickedItem)
             // Use this position to get the corresponding symbol from the currency symbols array
             val symbol = if (actualPosition != -1) mCurrencySymbols[actualPosition] else "Unknown"
-            //change tip value string
-            var lStr = mTipView.text.toString()
-            var lToReplace = mTVSymbol.text.toString()
-            lStr = lStr.replace(lToReplace, symbol)
-            mTipView.text = lStr
-            //change total amount string
-            lStr = mTotalView.text.toString()
-            lStr = lStr.replace(mTVSymbol.text.toString(), symbol)
-            mTotalView.text = lStr
-            //change per person amount too
-            lStr = mPerPersonAmt.text.toString()
-            lStr = lStr.replace(mTVSymbol.text.toString(), symbol)
-            mPerPersonAmt.text = lStr
+            val oldSymbol = mTVSymbol.text.toString()
+            changeTextSymbols(mTipView, oldSymbol, symbol)
+            changeTextSymbols(mTotalView, oldSymbol, symbol)
+            changeTextSymbols(mPerPersonAmt, oldSymbol, symbol)
 
             // Set the symbol to the TextView
             mTVSymbol.text = symbol
@@ -249,6 +240,12 @@ class MainActivity : AppCompatActivity() {
                 Toast.makeText(applicationContext, "Tip amount is empty", Toast.LENGTH_SHORT).show()
             }
         }
+    }
+
+    private fun changeTextSymbols(textView: TextView, oldSymbol: String, newSymbol: String) {
+        var text = textView.text.toString()
+        text = text.replace(oldSymbol, newSymbol)
+        textView.text = text
     }
 
     private fun addContentsToSpinner() {
