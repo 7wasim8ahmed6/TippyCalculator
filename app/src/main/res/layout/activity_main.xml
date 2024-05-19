@@ -207,6 +207,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
+        android:backgroundTint="#151414"
         app:layout_constraintBottom_toBottomOf="@+id/tvTipQuality"
         app:layout_constraintStart_toEndOf="@+id/tvTipQuality"
         app:layout_constraintTop_toTopOf="@+id/tvTipQuality" />

@@ -1,21 +1,45 @@
-import kotlin.math.ceil
+class buisnessLogic(aAmount: Double, aTipPercent: Double, aNumberOfPeople: UInt = 1U) {
+    private var mAmount: Double = aAmount
+    private var mTipPercent: Double = aTipPercent
+    private var mNumberOfPeople: UInt = aNumberOfPeople
 
-class buisnessLogic(private var totalAmount: Double, private var tipPercentage: Double) {
-    private var splitNumbers: UInt = 1u
-
-    // Function to calculate the total amount with tip, rounded up to 2 decimal places
-    fun totalWithTip(): Double {
-        val total = totalAmount + (totalAmount * (tipPercentage / 100))
-        return ceil(total * 100) / 100
+    public fun getAmount(): Double {
+        return mAmount
     }
 
-    // Function to calculate the amount per person, rounded up to 2 decimal places
-    fun amountPerPerson(): Double {
-        return if (splitNumbers == 0u) {
-            totalWithTip()
+    public fun setAmount(aAmount: Double) {
+        mAmount = aAmount
+    }
+
+    public fun getTipPercent(): Double {
+        return mTipPercent
+    }
+
+    public fun setTipPercent(aTip: Double) {
+        mTipPercent = aTip
+    }
+
+    public fun getNumberOfPeople(): UInt {
+        return mNumberOfPeople
+    }
+
+    public fun setNumberOfPeople(aNumberOfPeople: UInt) {
+        mNumberOfPeople = aNumberOfPeople
+    }
+
+    public fun getTotalWithTip(): Double {
+        return (mAmount * mTipPercent / 100.0) + mAmount
+    }
+
+    public fun getTotalWithTipPerPerson(): Double {
+        return if (mNumberOfPeople != 0U) {
+            getTotalWithTip() / mNumberOfPeople.toDouble()
         } else {
-            val amount = totalWithTip() / splitNumbers.toDouble()
-            ceil(amount * 100) / 100
+            getTotalWithTip()
         }
+    }
+
+    public fun setTipPercentViaTotalTip(aNewTotalWithTip: Double) {
+        mTipPercent = (aNewTotalWithTip - mAmount) * 100.0 / mAmount
     }
 }
