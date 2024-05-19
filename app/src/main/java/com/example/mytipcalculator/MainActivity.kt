@@ -117,7 +117,7 @@ class MainActivity : AppCompatActivity() {
         mEtAmount.setText("$STARTAMT")
         mPerPersonAmt.text = mTotalView.text.toString()
         mPercentView.text = "STARTPERCENT%"
-        mSeekBar.progress = decimalToUnits(STARTPERCENT)
+        mSeekBar.progress = convertTipPercentToSeeker(STARTPERCENT)
         computeTipTotalAndSetViews()
         setTheHappinessInd(STARTPERCENT)
         updateAppriciationColor(STARTPERCENT)
@@ -137,12 +137,24 @@ class MainActivity : AppCompatActivity() {
         mSeekBar.setOnSeekBarChangeListener(object : OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
 //                Log.i(/* tag = */ TAG, /* msg = */ "onProgressChanged $progress")
-                val decimalProgress = unitsToDecimal(progress)
-                computeTipTotalAndSetViews()
-                setTheHappinessInd(decimalProgress)
-                updateAppriciationColor(decimalProgress)
-                if (mCbxSplitBill.isChecked())
-                    updateSplitBill()
+                if(fromUser) {
+                    val decimalProgress = convertSeekerToTipPercent(progress)
+                    mbuisnessLogic.setTipPercent(decimalProgress)
+                    computeTipTotalAndSetViews()
+                    setTheHappinessInd(decimalProgress)
+                    updateAppriciationColor(decimalProgress)
+                    if (mCbxSplitBill.isChecked())
+                        updateSplitBill()
+                }
+                else
+                {
+                    val decimalProgress = convertSeekerToTipPercent(progress)
+                    computeTipTotalAndSetViews()
+                    setTheHappinessInd(decimalProgress)
+                    updateAppriciationColor(decimalProgress)
+                    if (mCbxSplitBill.isChecked())
+                        updateSplitBill()
+                }
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar?) {}
@@ -204,15 +216,14 @@ class MainActivity : AppCompatActivity() {
             val tipAmountText: String = mTipView.text.toString()
             if (tipAmountText.isNotEmpty()) {
                 // Convert the tip amount text to a Double
-                val numericStr = tipAmountText.replace(mTVSymbol.text.toString(), "")
-                val tipAmount = numericStr.toDouble()
+//                val numericStr = tipAmountText.replace(mTVSymbol.text.toString(), "")
+                val tipAmount = mbuisnessLogic.getTipAmount()
 
                 // Round up the tip amount
                 val roundedTipAmount = kotlin.math.ceil(tipAmount)
+                mbuisnessLogic.setTipPercentViaAmountTip(roundedTipAmount)
                 if (mEtAmount.text.isNotEmpty()) {
-                    val lBillAmt = mEtAmount.text.toString()
-                    val percentage = roundedTipAmount * 100 / lBillAmt.toDouble()
-                    val lUnits = decimalToUnits(percentage)
+                    val lUnits = convertTipPercentToSeeker(mbuisnessLogic.getTipPercent())
                     mSeekBar.setProgress(lUnits)
                 }
             } else {
@@ -225,14 +236,13 @@ class MainActivity : AppCompatActivity() {
             val tipAmountText: String = mTipView.text.toString()
             if (tipAmountText.isNotEmpty()) {
                 // Convert the tip amount text to a Double
-                val numericStr = tipAmountText.replace(mTVSymbol.text.toString(), "")
-                val tipAmount = numericStr.toDouble()
+//                val numericStr = tipAmountText.replace(mTVSymbol.text.toString(), "")
+                val tipAmount = mbuisnessLogic.getTipAmount()
                 // Round up the tip amount
                 val roundedTipAmount = kotlin.math.floor(tipAmount)
+                mbuisnessLogic.setTipPercentViaAmountTip(roundedTipAmount)
                 if (mEtAmount.text.isNotEmpty()) {
-                    val lBillAmt = mEtAmount.text.toString()
-                    val percentage = roundedTipAmount * 100 / lBillAmt.toDouble()
-                    val lUnits = decimalToUnits(percentage)
+                    val lUnits = convertTipPercentToSeeker(mbuisnessLogic.getTipPercent())
                     mSeekBar.setProgress(lUnits)
                 }
             } else {
@@ -272,6 +282,7 @@ class MainActivity : AppCompatActivity() {
                 val selectedServiceQuality = serviceQualityOptions[position]
                 val seekBarVal = tipPercentages[selectedServiceQuality]
                 if (seekBarVal != null) {
+                    mbuisnessLogic.setTipPercent(convertSeekerToTipPercent(seekBarVal))
                     mSeekBar.progress = seekBarVal
                 }
             }
@@ -297,13 +308,13 @@ class MainActivity : AppCompatActivity() {
                         // Handle divide by zero error
                         mPerPersonAmt.text = getString(/* resId = */ R.string.wash_the_dishes)
                     } else {
-                        val numericString = lTotalValStr.replace(
-                            mTVSymbol.text.toString(),
-                            ""
-                        ) // Remove the euro symbol
-                        val toDouble: Double = numericString.toDouble()
-                        val d: Double = toDouble / toInt
-                        mPerPersonAmt.text = String.format("%.2f", d) + mTVSymbol.text.toString()
+//                        val numericString = lTotalValStr.replace(
+//                            mTVSymbol.text.toString(),
+//                            ""
+//                        ) // Remove the euro symbol
+//                        val toDouble: Double = numericString.toDouble()
+                        mbuisnessLogic.setNumberOfPeople(toInt.toUInt())
+                        mPerPersonAmt.text = String.format("%.2f", mbuisnessLogic.getTotalWithTipPerPerson()) + mTVSymbol.text.toString()
                     }
                 } catch (e: NumberFormatException) {
                     // Handle parsing error
@@ -314,7 +325,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun updateAppriciationColor(decimalProgress: Double) {
-        val progress = decimalToUnits(decimalProgress)
+        val progress = convertTipPercentToSeeker(decimalProgress)
         val lFraction = progress.toFloat() / 3000
         // Retrieve start color
         val startColor = ContextCompat.getColor(this, R.color.red)
@@ -325,7 +336,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setTheHappinessInd(decimalProgress: Double) {
-        val progress = decimalToUnits(decimalProgress)
+        val progress = convertTipPercentToSeeker(decimalProgress)
         val lHappyTxt = when (progress) {
             in 0..999 -> getString(R.string.poor_face) // Poor (sad face)
             in 1000..1499 -> getString(R.string.acceptable_face) // Acceptable (neutral face)
@@ -342,33 +353,18 @@ class MainActivity : AppCompatActivity() {
             mTotalView.text = ""
             return
         }
-        val decimalProgress = unitsToDecimal(mSeekBar.progress)
-        mPercentView.text = String.format("%.2f%%", decimalProgress)
+        mPercentView.text = String.format("%.2f%%", mbuisnessLogic.getTipPercent())
         val amountText: String = mEtAmount.text.toString()
-        val amount = if (amountText.isNotEmpty()) amountText.toDouble() else 0.0
-        var value = amount * decimalProgress / 100
-        value = roundToNearestWhole(value)
-        mTipView.text = String.format("%.2f", value) + mTVSymbol.text.toString()
-        val lTotal = value + amount
-        mTotalView.text = String.format("%.2f", lTotal) + mTVSymbol.text.toString()
+        mbuisnessLogic.setAmount(if (amountText.isNotEmpty()) amountText.toDouble() else 0.0)
+        mTipView.text = String.format("%.2f", mbuisnessLogic.getTipAmount()) + mTVSymbol.text.toString()
+        mTotalView.text = String.format("%.2f", mbuisnessLogic.getTotalWithTip()) + mTVSymbol.text.toString()
     }
 
-    private fun roundToNearestWhole(number: Double): Double {
-        val decimalPart = number - number.toInt()
-        return if (decimalPart >= 0.98) {
-            Math.ceil(number)
-        } else if (decimalPart <= 0.02) {
-            Math.floor(number)
-        } else {
-            number
-        }
+    private fun convertTipPercentToSeeker(aTipPercent: Double): Int {
+        return Math.round((3000.0 * aTipPercent) / 30.0).toInt()
     }
 
-    private fun decimalToUnits(decimal: Double): Int {
-        return (decimal * 100).toInt()
-    }
-
-    private fun unitsToDecimal(units: Int): Double {
-        return units.toDouble() / 100
+    private fun convertSeekerToTipPercent(aSeekerValue: Int): Double {
+        return (aSeekerValue.toDouble() * 30.0)/3000.0
     }
 }

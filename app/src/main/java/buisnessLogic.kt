@@ -27,6 +27,11 @@ class buisnessLogic(aAmount: Double, aTipPercent: Double, aNumberOfPeople: UInt 
         mNumberOfPeople = aNumberOfPeople
     }
 
+    public fun getTipAmount() : Double
+    {
+        return (mAmount * mTipPercent / 100.0)
+    }
+
     public fun getTotalWithTip(): Double {
         return (mAmount * mTipPercent / 100.0) + mAmount
     }
@@ -39,7 +44,7 @@ class buisnessLogic(aAmount: Double, aTipPercent: Double, aNumberOfPeople: UInt 
         }
     }
 
-    public fun setTipPercentViaTotalTip(aNewTotalWithTip: Double) {
-        mTipPercent = (aNewTotalWithTip - mAmount) * 100.0 / mAmount
+    public fun setTipPercentViaAmountTip(aNewTipAmount: Double) {
+        mTipPercent = (aNewTipAmount * 100)/mAmount
     }
 }
