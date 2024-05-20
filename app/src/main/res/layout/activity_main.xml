@@ -247,4 +247,17 @@
         app:layout_constraintTop_toTopOf="@+id/autocomplete_currency"
         tools:text="Sym" />
 
+    <Button
+        android:id="@+id/btnPastTips"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="80dp"
+        android:backgroundTint="#978E8E"
+        android:text="Previous Tips"
+        android:textColor="#020202"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

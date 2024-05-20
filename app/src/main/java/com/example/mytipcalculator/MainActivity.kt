@@ -10,6 +10,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
+import android.widget.Button
 import android.widget.CheckBox
 import android.widget.EditText
 import android.widget.SeekBar
@@ -47,12 +48,13 @@ class MainActivity : AppCompatActivity() {
     private lateinit var mTVSymbol: TextView
     private lateinit var mCurrencySymbols: Array<String>
     private lateinit var mbuisnessLogic: buisnessLogic
+    private lateinit var mPrevTipsBtn : Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_main)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.btnPastTips)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
@@ -241,6 +243,10 @@ class MainActivity : AppCompatActivity() {
                 Toast.makeText(applicationContext, "Tip amount is empty", Toast.LENGTH_SHORT).show()
             }
         }
+
+        mPrevTipsBtn.setOnClickListener {
+            Toast.makeText(applicationContext, "Coming Soon", Toast.LENGTH_SHORT).show()
+        }
     }
 
     private fun connectAllWidgets() {
@@ -259,6 +265,7 @@ class MainActivity : AppCompatActivity() {
         mTipSpinner = findViewById(R.id.spnTip)
         mAutoCompleteTextView = findViewById(R.id.autocomplete_currency)
         mTVSymbol = findViewById(R.id.textview_currency_symbol)
+        mPrevTipsBtn = findViewById(R.id.btnPastTips)
     }
 
     private fun changeTextSymbols(textView: TextView, oldSymbol: String, newSymbol: String) {
