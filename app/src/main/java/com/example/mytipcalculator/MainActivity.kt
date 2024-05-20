@@ -57,23 +57,20 @@ class MainActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        mbuisnessLogic = buisnessLogic(STARTAMT, STARTPERCENT)
-        mEtAmount = findViewById(R.id.etAmount)
-        mPercentView = findViewById(R.id.tvPercent)
-        mTipView = findViewById(R.id.tvTipValue)
-        mTotalView = findViewById(R.id.tvTotalAmt)
-        mHappynessIndView = findViewById(R.id.tvHappyIndicator)
-        mSeekBar = findViewById(R.id.sbTipAdjustBar)
-        mCbxSplitBill = findViewById(R.id.cbxSplitBill)
-        mEtnSplittNos = findViewById(R.id.etnSplitNos)
-        mPerPersonAmt = findViewById(R.id.tvAmtPerPerson)
-        mRoundUp = findViewById(R.id.tvUp)
-        mRoundDown = findViewById(R.id.tvDn)
-        mTipSpinner = findViewById(R.id.spnTip)
-        mAutoCompleteTextView = findViewById(R.id.autocomplete_currency)
-        mTVSymbol = findViewById(R.id.textview_currency_symbol)
-
+        connectAllWidgets()
         addContentsToSpinner()
+        setUpAutoCompleteAndSharedPreferences()
+        mEtAmount.setText("$STARTAMT")
+        mPerPersonAmt.text = mTotalView.text.toString()
+        mPercentView.text = "STARTPERCENT%"
+        mSeekBar.progress = convertTipPercentToSeeker(STARTPERCENT)
+        computeTipTotalAndSetViews()
+        setTheHappinessInd(STARTPERCENT)
+        updateAppriciationColor(STARTPERCENT)
+        connectSlots()
+    }
+
+    private fun setUpAutoCompleteAndSharedPreferences() {
         val currencies = resources.getStringArray(R.array.currency_array)
         mCurrencySymbols = resources.getStringArray(R.array.currency_symbols)
         val adapter: ArrayAdapter<String> =
@@ -113,15 +110,9 @@ class MainActivity : AppCompatActivity() {
             val symbol = if (actualPosition != -1) mCurrencySymbols[actualPosition] else "X"
             mTVSymbol.text = symbol
         }
+    }
 
-        mEtAmount.setText("$STARTAMT")
-        mPerPersonAmt.text = mTotalView.text.toString()
-        mPercentView.text = "STARTPERCENT%"
-        mSeekBar.progress = convertTipPercentToSeeker(STARTPERCENT)
-        computeTipTotalAndSetViews()
-        setTheHappinessInd(STARTPERCENT)
-        updateAppriciationColor(STARTPERCENT)
-
+    private fun connectSlots() {
         mEtAmount.addTextChangedListener(/* watcher = */ object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
             }
@@ -252,6 +243,24 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun connectAllWidgets() {
+        mbuisnessLogic = buisnessLogic(STARTAMT, STARTPERCENT)
+        mEtAmount = findViewById(R.id.etAmount)
+        mPercentView = findViewById(R.id.tvPercent)
+        mTipView = findViewById(R.id.tvTipValue)
+        mTotalView = findViewById(R.id.tvTotalAmt)
+        mHappynessIndView = findViewById(R.id.tvHappyIndicator)
+        mSeekBar = findViewById(R.id.sbTipAdjustBar)
+        mCbxSplitBill = findViewById(R.id.cbxSplitBill)
+        mEtnSplittNos = findViewById(R.id.etnSplitNos)
+        mPerPersonAmt = findViewById(R.id.tvAmtPerPerson)
+        mRoundUp = findViewById(R.id.tvUp)
+        mRoundDown = findViewById(R.id.tvDn)
+        mTipSpinner = findViewById(R.id.spnTip)
+        mAutoCompleteTextView = findViewById(R.id.autocomplete_currency)
+        mTVSymbol = findViewById(R.id.textview_currency_symbol)
+    }
+
     private fun changeTextSymbols(textView: TextView, oldSymbol: String, newSymbol: String) {
         var text = textView.text.toString()
         text = text.replace(oldSymbol, newSymbol)
@@ -308,11 +317,6 @@ class MainActivity : AppCompatActivity() {
                         // Handle divide by zero error
                         mPerPersonAmt.text = getString(/* resId = */ R.string.wash_the_dishes)
                     } else {
-//                        val numericString = lTotalValStr.replace(
-//                            mTVSymbol.text.toString(),
-//                            ""
-//                        ) // Remove the euro symbol
-//                        val toDouble: Double = numericString.toDouble()
                         mbuisnessLogic.setNumberOfPeople(toInt.toUInt())
                         mPerPersonAmt.text = String.format("%.2f", mbuisnessLogic.getTotalWithTipPerPerson()) + mTVSymbol.text.toString()
                     }
