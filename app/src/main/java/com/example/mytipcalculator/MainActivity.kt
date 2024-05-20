@@ -134,7 +134,7 @@ class MainActivity : AppCompatActivity() {
                     computeTipTotalAndSetViews()
                     setTheHappinessInd(decimalProgress)
                     updateAppriciationColor(decimalProgress)
-                    if (mCbxSplitBill.isChecked())
+                    if (mCbxSplitBill.isChecked)
                         updateSplitBill()
                 }
                 else
@@ -143,7 +143,7 @@ class MainActivity : AppCompatActivity() {
                     computeTipTotalAndSetViews()
                     setTheHappinessInd(decimalProgress)
                     updateAppriciationColor(decimalProgress)
-                    if (mCbxSplitBill.isChecked())
+                    if (mCbxSplitBill.isChecked)
                         updateSplitBill()
                 }
             }
