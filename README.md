@@ -10,15 +10,19 @@ Time spent: **10** hours spent in total
 
 The following **required** functionality is completed:
 
-* [ ] User can enter in a bill amount (total amount to tip on)
-* [ ] User can enter a tip percentage (what % the user wants to tip).
-* [ ] The tip and total amount are updated immediately when any of the inputs changes.
-* [ ] The user sees a label or color update based on the tip amount. 
+* [x] Change the color scheme of the app, e.g. the background/primary/secondary color.
+* [x] Modify the theme at app/src/main/res/values/theme.xml
+* [x] Replace the text describing the tip (“poor”, “good”, etc) with emojis.
+* [x] Improve the user interface through styling and coloring, e.g. change the text color, font,
+    optimize the layout for different screens
 
 The following **extensions** are implemented:
 
-* [ ] Custom colors palette selected
-* [ ] List anything else that you did to improve the app functionality or design!
+* [x] Add the ability to split the bill across any number of people.
+* [x] Add the ability to round the total bill up or down, which should update the tip amount and
+      percent automatically.
+* [x] (Advanced) Show currency symbols, and allow the user to change their currency.
+* [x] (Advanced) Add another screen to the app where you can see tips made in the past.
 
 ## Video Walkthrough
 
