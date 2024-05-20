@@ -128,7 +128,7 @@ class MainActivity : AppCompatActivity() {
         mSeekBar.setOnSeekBarChangeListener(object : OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
 //                Log.i(/* tag = */ TAG, /* msg = */ "onProgressChanged $progress")
-                if(fromUser) {
+                if (fromUser) {
                     val decimalProgress = convertSeekerToTipPercent(progress)
                     mbuisnessLogic.setTipPercent(decimalProgress)
                     computeTipTotalAndSetViews()
@@ -136,9 +136,7 @@ class MainActivity : AppCompatActivity() {
                     updateAppriciationColor(decimalProgress)
                     if (mCbxSplitBill.isChecked)
                         updateSplitBill()
-                }
-                else
-                {
+                } else {
                     val decimalProgress = convertSeekerToTipPercent(progress)
                     computeTipTotalAndSetViews()
                     setTheHappinessInd(decimalProgress)
@@ -215,7 +213,8 @@ class MainActivity : AppCompatActivity() {
                 mbuisnessLogic.setTipPercentViaAmountTip(roundedTipAmount)
                 if (mEtAmount.text.isNotEmpty()) {
                     val lUnits = convertTipPercentToSeeker(mbuisnessLogic.getTipPercent())
-                    mSeekBar.setProgress(lUnits)
+                    mSeekBar.setProgress(lUnits - 1)
+                    mSeekBar.setProgress(lUnits + 1)
                 }
             } else {
                 // Handle the case where the tip amount text is empty
@@ -234,7 +233,8 @@ class MainActivity : AppCompatActivity() {
                 mbuisnessLogic.setTipPercentViaAmountTip(roundedTipAmount)
                 if (mEtAmount.text.isNotEmpty()) {
                     val lUnits = convertTipPercentToSeeker(mbuisnessLogic.getTipPercent())
-                    mSeekBar.setProgress(lUnits)
+                    mSeekBar.setProgress(lUnits - 1)
+                    mSeekBar.setProgress(lUnits + 1)
                 }
             } else {
                 // Handle the case where the tip amount text is empty
@@ -318,7 +318,10 @@ class MainActivity : AppCompatActivity() {
                         mPerPersonAmt.text = getString(/* resId = */ R.string.wash_the_dishes)
                     } else {
                         mbuisnessLogic.setNumberOfPeople(toInt.toUInt())
-                        mPerPersonAmt.text = String.format("%.2f", mbuisnessLogic.getTotalWithTipPerPerson()) + mTVSymbol.text.toString()
+                        mPerPersonAmt.text = String.format(
+                            "%.2f",
+                            mbuisnessLogic.getTotalWithTipPerPerson()
+                        ) + mTVSymbol.text.toString()
                     }
                 } catch (e: NumberFormatException) {
                     // Handle parsing error
@@ -360,8 +363,10 @@ class MainActivity : AppCompatActivity() {
         mPercentView.text = String.format("%.2f%%", mbuisnessLogic.getTipPercent())
         val amountText: String = mEtAmount.text.toString()
         mbuisnessLogic.setAmount(if (amountText.isNotEmpty()) amountText.toDouble() else 0.0)
-        mTipView.text = String.format("%.2f", mbuisnessLogic.getTipAmount()) + mTVSymbol.text.toString()
-        mTotalView.text = String.format("%.2f", mbuisnessLogic.getTotalWithTip()) + mTVSymbol.text.toString()
+        mTipView.text =
+            String.format("%.2f", mbuisnessLogic.getTipAmount()) + mTVSymbol.text.toString()
+        mTotalView.text =
+            String.format("%.2f", mbuisnessLogic.getTotalWithTip()) + mTVSymbol.text.toString()
     }
 
     private fun convertTipPercentToSeeker(aTipPercent: Double): Int {
@@ -369,6 +374,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun convertSeekerToTipPercent(aSeekerValue: Int): Double {
-        return (aSeekerValue.toDouble() * 30.0)/3000.0
+        return (aSeekerValue.toDouble() * 30.0) / 3000.0
     }
 }
