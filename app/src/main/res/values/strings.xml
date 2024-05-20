@@ -17,6 +17,8 @@
     <string name="amazing_face" translatable="false">😃</string>
     <string name="tip_quality">Tip Quality</string>
     <string name="select_currency">Currency</string>
+    <string name="tippercentfortipscreen">TipPercentForTipScreen</string>
+    <string name="amountfortipscreen">AmountForTipScreen</string>
     <string-array name="currency_array">
         <item>USD</item>
         <item>EUR</item>

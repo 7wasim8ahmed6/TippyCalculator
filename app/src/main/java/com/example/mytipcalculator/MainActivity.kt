@@ -1,6 +1,7 @@
 package com.example.mytipcalculator
 
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.text.Editable
@@ -245,7 +246,11 @@ class MainActivity : AppCompatActivity() {
         }
 
         mPrevTipsBtn.setOnClickListener {
-            Toast.makeText(applicationContext, "Coming Soon", Toast.LENGTH_SHORT).show()
+           val lIntent = Intent(this, TipsActivity::class.java).apply {
+               putExtra(getString(R.string.tippercentfortipscreen), mbuisnessLogic.getTipPercent())
+               putExtra(getString(R.string.amountfortipscreen), mbuisnessLogic.getAmount())
+           }
+            startActivity(lIntent)
         }
     }
 
