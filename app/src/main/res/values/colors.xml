@@ -2,4 +2,38 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="Grain_dark_green_abstract_background_design_texture_1">#FF042326</color>
+    <color name="Grain_dark_green_abstract_background_design_texture_2">#FF093A40</color>
+    <color name="Grain_dark_green_abstract_background_design_texture_3">#FF0F5959</color>
+    <color name="Grain_dark_green_abstract_background_design_texture_4">#FF1D7373</color>
+    <color name="Grain_dark_green_abstract_background_design_texture_5">#FF107361</color>
+    <color name="lightBlue">#ADD8E6</color>
+    <color name="yellow">#FFFF00</color>
+    <color name="red">#FF0000</color>
+    <color name="green">#00FF00</color>
+    <color name="light_yellow">#FFFFE0</color>
+    <!-- Background color -->
+    <color name="background_color">#FFFFFF</color>
+
+    <!-- Primary color -->
+    <color name="primary_color">#007ACC</color>
+
+    <!-- Secondary color -->
+    <color name="secondary_color">#D8D8D8</color>
+    <!-- Background color night-->
+    <color name="background_color_night">#2D2D2D</color>
+
+    <!-- Primary color night-->
+    <color name="primary_color_night">#1E1E1E</color>
+
+    <!-- Secondary color night-->
+    <color name="secondary_color_night">#007ACC</color>
+    <color name="my_light_primary">#3F51B5</color> <!-- Blue primary color -->
+    <color name="my_light_secondary">#FF4081</color> <!-- Pink secondary color -->
+    <color name="my_dark_primary">#2196F3</color> <!-- Dark blue primary color -->
+    <color name="my_dark_secondary">#FF4081</color> <!-- Pink secondary color -->
+    <color name="text_color_primary_light">#212121</color> <!-- Dark text color -->
+    <color name="text_color_secondary_light">#FFFFFF</color> <!-- White text color -->
+    <color name="text_color_primary_dark">#FFFFFF</color> <!-- White text color -->
+    <color name="text_color_secondary_dark">#212121</color> <!-- Dark text color -->
 </resources>

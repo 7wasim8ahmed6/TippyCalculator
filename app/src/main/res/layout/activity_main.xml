@@ -8,12 +8,256 @@
     tools:context=".MainActivity">
 
     <TextView
+        android:id="@+id/tvBaseView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="48dp"
+        android:text="@string/base"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvPercent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/tvBaseView"
+        app:layout_constraintTop_toBottomOf="@+id/tvBaseView"
+        tools:text="24%" />
+
+    <TextView
+        android:id="@+id/tvTip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="64dp"
+        android:text="@string/tip"
+        app:layout_constraintEnd_toEndOf="@+id/tvPercent"
+        app:layout_constraintTop_toBottomOf="@+id/tvPercent" />
+
+    <TextView
+        android:id="@+id/tvTotal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="@string/total"
+        app:layout_constraintEnd_toEndOf="@+id/tvTip"
+        app:layout_constraintTop_toBottomOf="@+id/tvTip" />
+
+    <EditText
+        android:id="@+id/etAmount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:autofillHints=""
+        android:backgroundTint="@color/black"
+        android:ems="8"
+        android:hint="@string/bill_amount"
+        android:inputType="number|numberDecimal"
+        android:textAlignment="textStart"
+        android:textColorHint="#546E7A"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/tvBaseView"
+        app:layout_constraintStart_toEndOf="@+id/tvBaseView"
+        app:layout_constraintTop_toTopOf="@+id/tvBaseView" />
+
+    <SeekBar
+        android:id="@+id/sbTipAdjustBar"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:max="3000"
+        android:progressTint="@color/black"
+        app:layout_constraintBottom_toBottomOf="@+id/tvPercent"
+        app:layout_constraintStart_toStartOf="@+id/etAmount"
+        app:layout_constraintTop_toTopOf="@+id/tvPercent" />
+
+    <TextView
+        android:id="@+id/tvTipValue"
+        android:layout_width="96dp"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/tvTip"
+        app:layout_constraintStart_toStartOf="@+id/sbTipAdjustBar"
+        app:layout_constraintTop_toTopOf="@+id/tvTip"
+        tools:text="19.96" />
+
+    <TextView
+        android:id="@+id/tvTotalAmt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/tvTotal"
+        app:layout_constraintStart_toStartOf="@+id/tvTipValue"
+        app:layout_constraintTop_toTopOf="@+id/tvTotal"
+        tools:text="103.11" />
+
+    <TextView
+        android:id="@+id/tvFooter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="32dp"
+        android:text="@string/made_with_by_wasim_ahmed"
+        android:textAllCaps="true"
+        android:textColor="#666060"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/tvHappyIndicator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="34sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/sbTipAdjustBar"
+        app:layout_constraintStart_toEndOf="@+id/sbTipAdjustBar"
+        app:layout_constraintTop_toTopOf="@+id/sbTipAdjustBar"
+        tools:layout_editor_absoluteY="87dp"
+        tools:text="Good" />
+
+    <CheckBox
+        android:id="@+id/cbxSplitBill"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:layout_marginTop="32dp"
+        android:text="@string/splitbill"
+        android:textAllCaps="false"
+        android:textSize="16sp"
+        android:textStyle="italic"
+        app:layout_constraintStart_toStartOf="@+id/tvTotal"
+        app:layout_constraintTop_toBottomOf="@+id/tvTotal" />
+
+    <EditText
+        android:id="@+id/etnSplitNos"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:autofillHints=""
+        android:ems="4"
+        android:enabled="false"
+        android:inputType="number"
+        android:minHeight="48dp"
+        android:text="@string/_startSplitBillDef"
+        android:textAlignment="viewStart"
+        android:textStyle="italic"
+        app:layout_constraintBottom_toBottomOf="@+id/cbxSplitBill"
+        app:layout_constraintStart_toEndOf="@+id/cbxSplitBill"
+        app:layout_constraintTop_toTopOf="@+id/cbxSplitBill" />
+
+    <TextView
+        android:id="@+id/tvTotalPerPer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="@string/total_per_person"
+        android:textStyle="italic"
+        app:layout_constraintStart_toStartOf="@+id/cbxSplitBill"
+        app:layout_constraintTop_toBottomOf="@+id/cbxSplitBill" />
+
+    <TextView
+        android:id="@+id/tvAmtPerPerson"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:textSize="20sp"
+        android:textStyle="bold|italic"
+        app:layout_constraintBottom_toBottomOf="@+id/tvTotalPerPer"
+        app:layout_constraintStart_toEndOf="@+id/tvTotalPerPer"
+        app:layout_constraintTop_toTopOf="@+id/tvTotalPerPer"
+        tools:text="100" />
+
+    <TextView
+        android:id="@+id/tvUp"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="2dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:foreground="@drawable/baseline_arrow_drop_up_24"
+        android:textAlignment="textStart"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@+id/tvDn"
+        app:layout_constraintStart_toEndOf="@+id/tvDn"
+        app:layout_constraintTop_toTopOf="@+id/tvDn"
+        tools:text="up" />
+
+    <TextView
+        android:id="@+id/tvDn"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:foreground="@drawable/baseline_arrow_drop_down_24"
+        android:textAlignment="textStart"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@+id/tvTipValue"
+        app:layout_constraintStart_toEndOf="@+id/tvTipValue"
+        app:layout_constraintTop_toTopOf="@+id/tvTipValue"
+        tools:ignore="TextSizeCheck"
+        tools:text="down" />
+
+    <Spinner
+        android:id="@+id/spnTip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:backgroundTint="#151414"
+        app:layout_constraintBottom_toBottomOf="@+id/tvTipQuality"
+        app:layout_constraintStart_toEndOf="@+id/tvTipQuality"
+        app:layout_constraintTop_toTopOf="@+id/tvTipQuality" />
+
+    <TextView
+        android:id="@+id/tvTipQuality"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/tip_quality"
+        android:textStyle="italic"
+        app:layout_constraintEnd_toEndOf="@+id/tvBaseView"
+        app:layout_constraintStart_toStartOf="@+id/tvBaseView"
+        app:layout_constraintTop_toBottomOf="@+id/tvPercent" />
+
+    <AutoCompleteTextView
+        android:id="@+id/autocomplete_currency"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:layout_marginTop="32dp"
+        android:ems="4"
+        android:hint="@string/select_currency"
+        android:inputType="text"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="@+id/tvTotalPerPer"
+        app:layout_constraintTop_toBottomOf="@+id/tvTotalPerPer" />
+
+    <TextView
+        android:id="@+id/textview_currency_symbol"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="@+id/autocomplete_currency"
+        app:layout_constraintStart_toEndOf="@+id/autocomplete_currency"
+        app:layout_constraintTop_toTopOf="@+id/autocomplete_currency"
+        tools:text="Sym" />
+
+    <Button
+        android:id="@+id/btnPastTips"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="80dp"
+        android:backgroundTint="#978E8E"
+        android:text="Previous Tips"
+        android:textColor="#020202"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
